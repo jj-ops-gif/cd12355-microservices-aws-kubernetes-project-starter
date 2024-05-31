@@ -52,17 +52,43 @@ spec:
           initialDelaySeconds: 5
           timeoutSeconds: 5
         env:
+        # - name: DB_HOST
+        #   value: postgres-service-postgresql
+        # - name: DB_PORT
+        #   value: "5432"
+        # - name: DB_USERNAME
+        #   value: postgres
+        # - name: DB_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: postgres-service-postgresql
+        #       key: postgres-password
+        # - name: DB_NAME
+        #   value: postgres
+        
         - name: DB_HOST
-          value: postgres-service-postgresql
+          valueFrom:
+            configMapKeyRef:
+              name: env-configmap
+              key: POSTGRES_HOST
         - name: DB_PORT
-          value: "5432"
+          valueFrom:
+            configMapKeyRef:
+              name: env-configmap
+              key: POSTGRES_PORT
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: env-configmap
+              key: POSTGRES_DB
         - name: DB_USERNAME
-          value: postgres
+          valueFrom:
+            secretKeyRef:
+              name: env-secret
+              key: POSTGRES_USERNAME 
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres-service-postgresql
-              key: postgres-password
-        - name: DB_NAME
-          value: postgres
+              name: env-secret
+              key: POSTGRES_PASSWORD
       restartPolicy: Always
