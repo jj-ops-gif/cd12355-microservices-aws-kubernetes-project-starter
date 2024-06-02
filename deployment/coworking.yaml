@@ -30,17 +30,8 @@ spec:
     spec:
       containers:
       - name: coworking
-        env:
-        - name: AWS_ACCOUNT_ID
-          value: "111928192316"
-        - name: AWS_DEFAULT_REGION
-          value: us-east-1
-        - name: AWS_ECR_REPO_NAME
-          value: coworking
-        - name: CODEBUILD_BUILD_NUMBER
-          value: latest
         image: $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_DEFAULT_REGION).amazonaws.com/$(AWS_ECR_REPO_NAME):$(CODEBUILD_BUILD_NUMBER)
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         resources:
           requests:
             memory: "64Mi"
@@ -74,6 +65,26 @@ spec:
         #       key: postgres-password
         # - name: DB_NAME
         #   value: postgres
+        - name: AWS_ACCOUNT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: env-configmap
+              key: AWS_ACCOUNT_ID
+        - name: AWS_DEFAULT_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: env-configmap
+              key: AWS_DEFAULT_REGION
+        - name: AWS_ECR_REPO_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: env-configmap
+              key: AWS_ECR_REPO_NAME
+        - name: CODEBUILD_BUILD_NUMBER
+          valueFrom:
+            configMapKeyRef:
+              name: env-configmap
+              key: CODEBUILD_BUILD_NUMBER
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:

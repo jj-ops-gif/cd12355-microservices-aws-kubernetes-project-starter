@@ -6,3 +6,7 @@ data:
   POSTGRES_HOST: postgres-service-postgresql
   POSTGRES_PORT: "5432"
   POSTGRES_DB: postgres
+  AWS_ACCOUNT_ID: "111928192316"
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_ECR_REPO_NAME: coworking
+  CODEBUILD_BUILD_NUMBER: latest
