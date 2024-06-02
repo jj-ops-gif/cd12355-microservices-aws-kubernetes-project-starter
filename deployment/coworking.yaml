@@ -30,7 +30,16 @@ spec:
     spec:
       containers:
       - name: coworking
-        image: 196895008979.dkr.ecr.us-east-1.amazonaws.com/analytics:latest
+        env:
+        - name: AWS_ACCOUNT_ID
+          value: "111928192316"
+        - name: AWS_DEFAULT_REGION
+          value: us-east-1
+        - name: AWS_ECR_REPO_NAME
+          value: coworking
+        - name: CODEBUILD_BUILD_NUMBER
+          value: latest
+        image: $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_DEFAULT_REGION).amazonaws.com/$(AWS_ECR_REPO_NAME):$(CODEBUILD_BUILD_NUMBER)
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -65,7 +74,6 @@ spec:
         #       key: postgres-password
         # - name: DB_NAME
         #   value: postgres
-        
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:
